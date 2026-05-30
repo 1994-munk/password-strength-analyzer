@@ -17,6 +17,25 @@
          <input type="password" id="password" name="password" required>
          <button type="submit">Check Strength</button>
        </form>
-    <p>Enter a password to check its strength.</p>
-</body>
-</html>
+
+       {% if strength %}
+       <div class ="result">
+         <h2>Result:</h2>
+         <p class ='strength-{{ strength|lower }}'>Strength: <strong>{{strength}}</strong></p>
+         {% if feedback %}
+         <ul>
+              {% for item in feedback %}
+              <li>{{ item }}</li>
+              {% endfor %}
+
+         </ul>
+            {% endif %}
+         </div>
+         {% else %}
+         <p>Enter a password to check its strength.</p>
+            {% endif %}
+        </div>
+        </body> 
+        </html>
+
+    
