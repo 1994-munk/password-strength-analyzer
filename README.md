@@ -1,4 +1,4 @@
-markdown# 🔐 Password Strength Analyzer
+# 🔐 Password Strength Analyzer
 
 ![Python](https://img.shields.io/badge/Python-3.11-blue?style=flat-square&logo=python)
 ![Flask](https://img.shields.io/badge/Flask-3.0-teal?style=flat-square&logo=flask)
