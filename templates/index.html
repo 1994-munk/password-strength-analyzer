@@ -24,6 +24,13 @@
       <div class="meter">
         <div class="meter-fill" style="width: {{ percentage }}%;"></div>
       </div>
+
+      {% if entropy %}
+      <div class ="entropy-box">
+        🔒 Entropy : <strong>{{ entropy }} bits</strong> -{{e_label}}
+        <small>(60 + bits is strong, 128+ is excellent)</small>
+      </div>
+      {% endif %}
       
       {% if feedback %}
       <ul>
