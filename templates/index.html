@@ -8,34 +8,34 @@
 </head>
 
 <body>
+  <div class="container">
+    <h1>Password Strength Analyzer</h1>
+    <form method="POST" action="/">
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required>
+      <button type="submit">Check Strength</button>
+    </form>
 
-    <div class="container">
-
-       <h1>Password Strength Analyzer</h1>
-       <form method="POST">
-         <label for="password">Password:</label>
-         <input type="password" id="password" name="password" required>
-         <button type="submit">Check Strength</button>
-       </form>
-
-       {% if strength %}
-       <div class ="result">
-         <h2>Result:</h2>
-         <p class ='strength-{{ strength|lower }}'>Strength: <strong>{{strength}}</strong></p>
-         {% if feedback %}
-         <ul>
-              {% for item in feedback %}
-              <li>{{ item }}</li>
-              {% endfor %}
-
-         </ul>
-            {% endif %}
-         </div>
-         {% else %}
-         <p>Enter a password to check its strength.</p>
-            {% endif %}
-        </div>
-        </body> 
-        </html>
-
-    
+    {% if strength %}
+    <div class="result">
+      <h2>Result:</h2>
+      <p class="strength-{{ strength|lower }}">Strength: <strong>{{ strength }}</strong></p>
+      
+      <div class="meter">
+        <div class="meter-fill" style="width: {{ percentage }}%;"></div>
+      </div>
+      
+      {% if feedback %}
+      <ul>
+        {% for item in feedback %}
+        <li>{{ item }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </div>
+    {% else %}
+    <p>Enter a password to check its strength.</p>
+    {% endif %}
+  </div>
+</body>
+</html>

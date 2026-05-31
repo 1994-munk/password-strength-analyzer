@@ -42,17 +42,22 @@ def check_password_strength(password):
     #determine password strength
     if score<=2:
         strength = 'Weak'
+        percentage = 33
+        
     elif score<=4:
         strength = 'Moderate'
+        percentage = 66
     else:
         strength = 'Strong'
+        percentage = 100
 
-    return score, feedback, strength
+    return percentage, feedback, strength
 
 #home route 
 @app.route("/", methods=['GET', 'POST'])
 def home():
     
+    percentage = 0
     strength = None
     feedback = []
     
@@ -61,12 +66,13 @@ def home():
         
         password = request.form['password']
         
-        score, feedback, strength = check_password_strength(password)
+        percentage, feedback, strength = check_password_strength(password)
         
     return render_template(
         'index.html',
         strength=strength,
-        feedback=feedback
+        feedback=feedback,
+        percentage=percentage
     )
 
 #run the application
