@@ -1,7 +1,10 @@
 from flask import Flask, render_template, request
 import re 
 import math 
+import secrets
+import string
 
+#function to calculate password entropy using the formula: E = L * log2(N)
 def calculate_entropy(password):
     pool=0
     if re.search(r'[a-z]', password):
@@ -16,7 +19,7 @@ def calculate_entropy(password):
         return 0
     return round(len(password) * math.log2(pool), 1)
 
-
+#function to label entropy
 def entropy_label(bits):
     if bits < 28:
         return 'Very Weak'
@@ -78,12 +81,29 @@ def check_password_strength(password):
     else:
         strength = 'Strong'
         percentage = 100
-        
+    
+    #calculate entropy    
     entropy = calculate_entropy(password)
     e_label = entropy_label(entropy)
     
 
     return percentage, feedback, strength ,entropy, e_label
+
+#function to generate a random strong password
+def generate_password(length=14):
+    alphabet = string.ascii_letters + string.digits + "!@#$%^&*()-+"
+    while True:
+        pwd=''.join(secrets.choice(alphabet) for i in range(length))
+        if (re.search(r'[A-Z]', pwd) and re.search(r'[a-z]', pwd) 
+            and re.search(r'\d', pwd) and re.search(r'[!@#$%^&*()-+]', pwd)):
+            return pwd
+        
+@app.route("/generate")
+def generate():
+    from flask import jsonify
+    password = generate_password()
+    return jsonify({'password': password, 'entropy': calculate_entropy(password), 'label': entropy_label(calculate_entropy(password))})
+            
 
 #home route 
 @app.route("/", methods=['GET', 'POST'])
@@ -92,6 +112,8 @@ def home():
     percentage = 0
     strength = None
     feedback = []
+    entropy = 0
+    e_label = None
     
     #check if the form is submitted
     if request.method == 'POST':

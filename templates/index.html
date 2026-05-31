@@ -16,6 +16,13 @@
       <button type="submit">Check Strength</button>
     </form>
 
+    <button type="button" id="generate-btn"> ⚡Generate Secure Password</button>
+    <div id ="generatedResult" style="display:none">
+
+      <code id ="generatedPassword"></code>
+      <button type ="button" id="copyBtn"> Copy</button>
+    </div>
+
     {% if strength %}
     <div class="result">
       <h2>Result:</h2>
@@ -45,4 +52,24 @@
     {% endif %}
   </div>
 </body>
+
+<script>
+  document.getElementById("generateBtn").addEventListener("click",async () =>{
+    const res =await fetch("/generate");
+
+    const data =await res.json();
+
+    document.getElementById("generatedPassword").textContent=data.password;
+    document.getElementById("generatedResult").style.display= "block";
+    document.getElementById("password").value =data.password; // auto-fills the input
+
+  });
+
+  document.getElementById("copyBtn").addEventListener("click", () =>{
+    const pwd = document.getElementById('generatedPassword').textContent;
+    navigator.clipboard.writeText(pwd);
+    document.getElementById('copyBtn').textContent = '✅ Copied!';
+    setTimeout(() => document.getElementById('copyBtn').textContent = '📋 Copy', 2000);
+  });
+</script>
 </html>
